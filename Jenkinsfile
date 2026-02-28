@@ -7,21 +7,15 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
-            steps {
-                git branch: 'main', url: 'https://github.com/yourusername/calculator-ci.git'
-            }
-        }
-
         stage('Compile Java Program') {
             steps {
-                sh 'javac Calculator.java'
+                bat 'javac Calculator.java'
             }
         }
 
         stage('Run Java Program') {
             steps {
-                sh 'echo "5 3 +" | java Calculator'
+                bat 'java Calculator'
             }
         }
     }
@@ -29,6 +23,7 @@ pipeline {
     post {
         success {
             archiveArtifacts artifacts: '*.class', fingerprint: true
+            echo 'Build Successful! Class file archived.'
         }
 
         failure {
